@@ -1,0 +1,5 @@
+service:
+  port: ":8084"
+  secretJWT: "supersecret"
+database:
+  dataSourceName: "root:password@tcp(localhost:3306)/miniig?parseTime=true"

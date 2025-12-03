@@ -3,12 +3,14 @@ package memberships
 import (
 	"context"
 
+	"github.com/VH288/miniig/internal/middleware"
 	"github.com/VH288/miniig/internal/model/memberships"
 	"github.com/gin-gonic/gin"
 )
 
 type membershipService interface {
 	SignUp(ctx context.Context, req memberships.SignUpRequest) error
+	Login(ctx context.Context, req memberships.LoginRequest) (string, error)
 }
 
 type Handler struct {
@@ -27,6 +29,9 @@ func NewHandler(api *gin.Engine, membershipSvc membershipService) *Handler {
 func (h *Handler) RegisterRoute() {
 	route := h.Group("memberships")
 
-	route.GET("/ping", h.Ping)
 	route.POST("/sign-up", h.SignUp)
+	route.POST("/login", h.Login)
+
+	route.Use(middleware.AuthMiddleware())
+	route.GET("/ping", h.Ping)
 }

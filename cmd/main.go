@@ -33,7 +33,7 @@ func main() {
 		log.Fatal("Gagal inisiai database", err)
 	}
 	membershipRepo := membershipRepo.NewRepository(db)
-	membershipService := membershipSvc.NewService(membershipRepo)
+	membershipService := membershipSvc.NewService(cfg, membershipRepo)
 
 	r := gin.Default()
 
