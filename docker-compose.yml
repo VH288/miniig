@@ -1,0 +1,12 @@
+version: '3'
+services:
+  db:
+    image: mysql:latest
+    container_name: mysql_miniig
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=miniig
+    volumes:
+      - /home/dodoko/Work/Dodo/Go/Go Project/Project/DB/miniig:/var/lib/mysql

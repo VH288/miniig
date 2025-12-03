@@ -1,0 +1,5 @@
+ALTER TABLE users
+DROP CONSTRAINT unique_username; 
+
+ALTER TABLE users
+DROP COLUMN IF EXISTS username;

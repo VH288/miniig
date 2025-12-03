@@ -1,2 +1,1 @@
 # miniig
-test
