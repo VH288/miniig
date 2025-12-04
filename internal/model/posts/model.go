@@ -1,3 +1,4 @@
+// Package posts
 package posts
 
 import "time"
