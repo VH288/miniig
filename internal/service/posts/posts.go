@@ -49,3 +49,39 @@ func (s *service) GetAllPost(ctx context.Context, pageSize, pageIndex int) (post
 	}
 	return response, nil
 }
+
+func (s *service) GetPostByID(ctx context.Context, postID int64) (*posts.GetPostResponse, error) {
+	postDetail, err := s.postRepo.GetPostByID(ctx, postID)
+	if err != nil {
+		log.Error().Err(err).Msg("error get post by id from database")
+		return nil, err
+	}
+
+	likeCount, err := s.postRepo.CountLikePostID(ctx, postID)
+	if err != nil {
+		log.Error().Err(err).Msg("error count like by id from database")
+		return nil, err
+	}
+
+	comments, err := s.postRepo.GetCommentByPostID(ctx, postID)
+	if err != nil {
+		log.Error().Err(err).Msg("error get comment by id from database")
+		return nil, err
+	}
+
+	response := posts.GetPostResponse{
+		PostDetail: posts.Post{
+			ID:           postDetail.ID,
+			UserID:       postDetail.UserID,
+			Username:     postDetail.Username,
+			PostTitle:    postDetail.PostTitle,
+			PostContent:  postDetail.PostContent,
+			PostHashtags: postDetail.PostHashtags,
+			IsLiked:      postDetail.IsLiked,
+		},
+		LikeCount: likeCount,
+		Comment:   comments,
+	}
+
+	return &response, nil
+}
