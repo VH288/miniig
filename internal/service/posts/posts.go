@@ -32,3 +32,20 @@ func (s *service) CreatePost(ctx context.Context, userID int64, req posts.Create
 	}
 	return nil
 }
+
+func (s *service) GetAllPost(ctx context.Context, pageSize, pageIndex int) (posts.GetAllPostResponse, error) {
+	limit := pageSize
+	offset := pageSize * (pageIndex - 1)
+	post, err := s.postRepo.GetAllPosts(ctx, limit, offset)
+	if err != nil {
+		return posts.GetAllPostResponse{}, err
+	}
+	response := posts.GetAllPostResponse{
+		Data: post,
+		Pagination: posts.Pagination{
+			Limit:  limit,
+			Offset: offset,
+		},
+	}
+	return response, nil
+}
